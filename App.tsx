@@ -16,10 +16,79 @@ import Alters from "./App/src/screens/Alters";
 import Speeding_Reports from "./App/src/screens/Speeding_Reports";
 import Map from "./App/src/screens/Map";
 import Speed_Statistics from "./App/src/screens/Speed_Statistics";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+const Tab=createBottomTabNavigator();
 
+function BottomTab(){
+  return(
+    <Tab.Navigator screenOptions={({route})=>({
+tabBarIcon:({focused,color,size})=>{
+  let iconName;
+  if (route.name==="Home"){
+    iconName = focused ? "home" : "home-outline";
+  }
+  else if (route.name==="Track"){
+    iconName = focused ? "navigate" : "navigate-outline";
+
+  }
+  else if (route.name === "Alters") {
+    iconName = focused ? "refresh" : "refresh-outline";
+  }
+  else if (route.name==="Report"){
+    iconName = focused? "document-text" : "document-text-outline";
+  }
+  else if(route.name==="More"){
+    iconName = focused? "menu" : "menu-outline";
+  }
+  return <Ionicons name={iconName} color={color} size={size} />;
+},
+    })}>
+
+      <Tab.Screen name="Home" component={Search} options={{headerShown:false}}/>
+      <Tab.Screen name="Track" component={Map} options={{headerTitleAlign:'center',headerShown:false}}/>
+      <Tab.Screen name="Alters" component={Alters}
+           options={{headerTitleAlign:'left',
+            headerStyle:{backgroundColor:'#4A90E2'},
+            headerTintColor:"#FFFFFF",
+            headerRight:()=>(
+              <View className="flex-row mr-15 gap-4">
+              <TouchableOpacity onPress={()=>Alert.alert('This is for search')}>
+                <Ionicons name="search" size={24} color="white"/>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={()=>Alert.alert('mozilla')}>
+                <Ionicons name="globe-outline" size={24} color="white"/>
+              </TouchableOpacity>
+              </View>
+            ),
+           }}/>
+            <Tab.Screen
+            name="Report"
+            component={Report}
+            options={{
+              headerShown: true,
+              title: "Reports",
+              headerTitleAlign: "center",headerHeight: "100%",
+              headerRight: () => (
+                <TouchableOpacity onPress={() => Alert.alert("Confirmed")}>
+                  <Ionicons name="ellipsis-vertical" size={24} />
+                </TouchableOpacity>
+              ),
+            }}
+          />
+            <Tab.Screen
+            name="More"
+            component={More}
+            options={{ headerTitleAlign: "center", headerRight:()=>(
+              <TouchableOpacity onPress={()=>Alert.alert('Click here to get more')}>
+              <Ionicons name="ellipsis-vertical" size={24} />
+              </TouchableOpacity>
+            ) }}
+          />
+    </Tab.Navigator>
+  )
+}
 const Stack = createNativeStackNavigator();
-
 export default function ScreenContainer() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -43,30 +112,8 @@ export default function ScreenContainer() {
             component={UserDetails}
             options={{ headerTitleAlign: "center" }}
           />
-          <Stack.Screen
-            name="More"
-            component={More}
-            options={{ headerTitleAlign: "center", headerRight:()=>(
-              <TouchableOpacity onPress={()=>Alert.alert('Click here to get more')}>
-              <Ionicons name="ellipsis-vertical" size={24} />
-              </TouchableOpacity>
-            ) }}
-          />
-          <Stack.Screen name="Alters" component={Alters}
-           options={{headerTitleAlign:'left',
-            headerStyle:{backgroundColor:'#4A90E2'},
-            headerTintColor:"#FFFFFF",
-            headerRight:()=>(
-              <View className="flex-row mr-15 gap-4">
-              <TouchableOpacity onPress={()=>Alert.alert('This is for search')}>
-                <Ionicons name="search" size={24} color="white"/>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={()=>Alert.alert('mozilla')}>
-                <Ionicons name="globe-outline" size={24} color="white"/>
-              </TouchableOpacity>
-              </View>
-            ),
-           }}/>
+        
+        
 
           <Stack.Screen name="Search"
           component={Search}
@@ -102,6 +149,7 @@ export default function ScreenContainer() {
               </TouchableOpacity>
             ),
            }}/>
+           <Stack.Screen name="main" component={BottomTab} options={{headerShown:false}}/>
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

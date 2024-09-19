@@ -94,7 +94,7 @@ const Search = () => {
               </View>
         </View>
       </View>
-      <Button title='Go to Alter' onPress={()=>navigate.navigate('Alters')}/>
+    
     </ScrollView>
   )
 }

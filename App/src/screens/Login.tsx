@@ -15,7 +15,7 @@ export default function Login() {
     <TextInput className='border-blue-300  border-2 rounded-md my-3 p-1' placeholder='Enter your PassWord'/> 
   </View>
   <View className='mt-6 bg-blue-400 rounded-md'>
-    <TouchableOpacity onPress={()=>navigation.navigate('Report')}>
+    <TouchableOpacity onPress={()=>navigation.navigate('main')}>
       <Text className='text-center p-2 text-white font-semibold'>Sign In</Text>
     </TouchableOpacity>
   </View>
